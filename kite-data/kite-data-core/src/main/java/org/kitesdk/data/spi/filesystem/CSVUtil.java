@@ -29,6 +29,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.apache.avro.Schema;
+import org.codehaus.jackson.node.NullNode;
 import org.kitesdk.data.DatasetException;
 import org.kitesdk.data.spi.Compatibility;
 
@@ -131,7 +132,8 @@ public class CSVUtil {
       }
       fields.add(new Schema.Field(
           header[i].trim(), schema(types[i], makeNullable || nullable[i]),
-          "Type inferred from '" + String.valueOf(values[i]) + "'", null));
+          "Type inferred from '" + String.valueOf(values[i]) + "'", 
+          ((makeNullable || nullable[i]) ? NullNode.getInstance() : null)));
     }
 
     Schema record = Schema.createRecord(
